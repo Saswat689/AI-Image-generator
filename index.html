@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AI image generator</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap" rel="stylesheet">
+	<style type="text/css">
+		.container {
+			width: 50%;
+			margin: 3rem auto;
+		}
+		.container h1 {
+			font-family: 'Rubik Wet Paint', cursive;
+			font-size: 2.3rem;
+			text-align: center;
+			letter-spacing: 4px;
+			margin-bottom: 2rem;
+			color: #5556b6;
+		}
+		.container input {
+			outline: none;
+			padding: 14px;
+			border-radius: 10px;
+			width: 100%;
+			border: 1px solid dimgrey;
+		}
+
+		.container input:focus {
+			border: 1px solid #5556b6;
+		}
+
+		.container img {
+			width: 100%;
+			height: auto;
+			background-size: cover;
+			margin-top: 2rem;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<h1>AI Image Generator</h1>
+	<form onsubmit="renderImage(event)">
+		<input type="text" name="prompt" placeholder="Describe any image and AI will generate it for you." id="prompt">
+	</form>
+	<img src="" alt="ai image" id="target">
+	<img src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=ecf05e4720gtc4wwc32knzr9v6t8pabvs8nyw13d30pno9cd&ep=v1_gifs_search&rid=giphy.gif&ct=g" style="width: 200px; height: auto; margin: 1.4rem auto; display: none;" id="loader">
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+	function renderImage(event) {
+		event.preventDefault()
+		const prompt = document.getElementById('prompt')
+		const target = document.getElementById('target')
+		const loader = document.getElementById('loader')
+
+		loader.style.display = "block"
+
+		axios.get('/img?prompt='+prompt.value)
+		.then(res => {
+			console.log(res)
+			target.src = res.data
+			loader.style.display = "none"
+			target.style.display = 'block'
+		})
+	}
+</script>
+</body>
+</html>
